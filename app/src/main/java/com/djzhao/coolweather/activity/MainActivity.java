@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.getString("weather", null) != null) {
-            ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            manager.setPrimaryClip(ClipData.newPlainText("debug", preferences.getString("weather", null)));
+//            ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+//            manager.setPrimaryClip(ClipData.newPlainText("debug", preferences.getString("weather", null)));
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
             finish();

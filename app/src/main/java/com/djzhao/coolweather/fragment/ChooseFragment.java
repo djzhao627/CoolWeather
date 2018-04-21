@@ -2,22 +2,32 @@ package com.djzhao.coolweather.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.solver.widgets.Snapshot;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.djzhao.coolweather.R;
 import com.djzhao.coolweather.activity.MainActivity;
 import com.djzhao.coolweather.activity.WeatherActivity;
@@ -54,6 +64,9 @@ public class ChooseFragment extends Fragment {
     private Button backButton;
     private ListView listView;
 
+    private LinearLayout chooseAreaLayout;
+    private RelativeLayout chooseTitleLayout;
+
     private ArrayAdapter<String> adapter;
     private List<String> dataList = new ArrayList<>();
     /**
@@ -88,6 +101,10 @@ public class ChooseFragment extends Fragment {
         titleText = view.findViewById(R.id.choose_area_title_text);
         backButton = view.findViewById(R.id.choose_area_back_button);
         listView = view.findViewById(R.id.choose_area_list_view);
+
+        chooseAreaLayout = view.findViewById(R.id.choose_area_linear_layout);
+        chooseTitleLayout = view.findViewById(R.id.choose_area_title_layout);
+
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
         return view;
@@ -96,6 +113,9 @@ public class ChooseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (getActivity() instanceof WeatherActivity) {
+            changeNavBackgroundWithDailyPic();
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -271,5 +291,25 @@ public class ChooseFragment extends Fragment {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    /**
+     * 改变城市选择的背景
+     */
+    private void changeNavBackgroundWithDailyPic() {
+        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String bingDailyPic = preferences.getString("bing_daily_pic", null);
+        if (bingDailyPic != null) {
+            SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                    chooseAreaLayout.setBackground(resource);
+                }
+            };
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bingDailyPic.getBytes(), 0, bingDailyPic.length());
+            Glide.with(this).load(bitmap).into(simpleTarget);
+        }*/
+        chooseAreaLayout.setBackgroundColor(Color.argb(210, 255, 255, 255));
+        chooseTitleLayout.setBackgroundColor(Color.parseColor("#CC3F51B5"));
     }
 }
